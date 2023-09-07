@@ -30,18 +30,18 @@ defaults
         timeout client  50000
         timeout server  50000
         
-	# New commands
+        # New commands
         option forwardfor
         option http-server-close
 
-frontend besthor_front_end
+frontend http_front
     bind *:80
-    bind *:443 ssl crt /etc/haproxy/certs/www.besthor.tech.pem
+    bind *:443 ssl crt /etc/letsencrypt/live/www.temple-alx.tech/all.pem
     http-request redirect scheme https unless { ssl_fc }
     http-request set-header X-Forwarded-Proto https
-    default_backend besthor_back_end
+    default_backend http_back
 
-backend besthor_back_end
+backend http_back
     balance roundrobin
     
     server 297359-web-01 54.174.209.36:80 check
